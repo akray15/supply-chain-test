@@ -5,9 +5,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@main  # Should be pinned to specific version
+      - uses: actions/checkout@main  # Should be pinned to SHA
       - uses: actions/setup-node@v3  # Should use SHA instead of tag
-      - uses: some-org/custom-action@latest  # Using 'latest' is risky
+      - uses: docker/setup-buildx-action@latest  # Using 'latest' is risky
+      - uses: azure/setup-kubectl@v3  # Unpinned version
+      - uses: hashicorp/setup-terraform@v2  # Should be pinned to SHA
       
       - name: Install dependencies
         run: npm install
