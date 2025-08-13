@@ -155,9 +155,9 @@ jobs:
                 echo "OVERALL_COMPLIANCE_STATUS=$OVERALL_STATUS" >> $GITHUB_ENV
 
             - name: Generate Compliance Report 
-                if: always()
+              if: always()
                 run: |
-                    echo "# 🛡️ GitHub Actions Security Compliance Report" > compliance-report.md
+                    echo "# GitHub Actions Security Compliance Report" > compliance-report.md
                     echo "" >> compliance-report.md
                     echo "**Repository:** ${{ github.repository }}" >> compliance-report.md
                     echo "**Branch:** ${{ github.ref_name }}" >> compliance-report.md
