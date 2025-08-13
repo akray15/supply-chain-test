@@ -1,0 +1,16 @@
+name: Unpinned Actions Workflow
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main  # Should be pinned to specific version
+      - uses: actions/setup-node@v3  # Should use SHA instead of tag
+      - uses: some-org/custom-action@latest  # Using 'latest' is risky
+      
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Run tests
+        run: npm test
