@@ -156,48 +156,48 @@ jobs:
 
             - name: Generate Compliance Report 
               if: always()
-                run: |
-                    echo "# GitHub Actions Security Compliance Report" > compliance-report.md
-                    echo "" >> compliance-report.md
-                    echo "**Repository:** ${{ github.repository }}" >> compliance-report.md
-                    echo "**Branch:** ${{ github.ref_name }}" >> compliance-report.md
-                    echo "**Check Date:** $(date -u)" >> compliance-report.md
-                    echo "**Compliance Checker:** AWS Bedrock Agent ${{ secrets.BEDROCK_AGENT_ID }}" >> compliance-report.md
-                    echo "" >> compliance-report.md
+              run: |
+                echo "# GitHub Actions Security Compliance Report" > compliance-report.md
+                echo "" >> compliance-report.md
+                echo "**Repository:** ${{ github.repository }}" >> compliance-report.md
+                echo "**Branch:** ${{ github.ref_name }}" >> compliance-report.md
+                echo "**Check Date:** $(date -u)" >> compliance-report.md
+                echo "**Compliance Checker:** AWS Bedrock Agent ${{ secrets.BEDROCK_AGENT_ID }}" >> compliance-report.md
+                echo "" >> compliance-report.md
 
-                    if [ "${{ env.OVERALL_COMPLIANCE_STATUS }}" = "PASS" ] || [ "${{ env.COMPLIANCE_STATUS }}" = "PASS" ]; then
-                        echo "## OVERALL STATUS: COMPLIANCE PASSED" >> compliance-report.md"
-                    elif [ "${{ env.OVERALL_COMPLIANCE_STATUS }}" = "FAIL" ] || [ "${{ env.COMPLIANCE_STATUS }}" = "FAIL" ]; then
-                        echo "## OVERALL STATUS: COMPLIANCE FAILED" >> compliance-report.md"
-                    else
-                        echo "## OVERALL STATUS: COMPLIANCE CHECK INCOMPLETE" >> compliance-report.md"
-                    fi 
+                if [ "${{ env.OVERALL_COMPLIANCE_STATUS }}" = "PASS" ] || [ "${{ env.COMPLIANCE_STATUS }}" = "PASS" ]; then
+                    echo "## OVERALL STATUS: COMPLIANCE PASSED" >> compliance-report.md"
+                elif [ "${{ env.OVERALL_COMPLIANCE_STATUS }}" = "FAIL" ] || [ "${{ env.COMPLIANCE_STATUS }}" = "FAIL" ]; then
+                    echo "## OVERALL STATUS: COMPLIANCE FAILED" >> compliance-report.md"
+                else
+                    echo "## OVERALL STATUS: COMPLIANCE CHECK INCOMPLETE" >> compliance-report.md"
+                fi 
 
-                    echo "" >> compliance-report.md
-                    echo "## Security Requirements Checked:" >> compliance-report.md
-                    echo "1. All third-party actions pinned to commit SHA" >> compliance-report.md
-                    echo "2. No script injection vulnerabilities" >> compliance-report.md
-                    echo "3. No dangerous triggers" >> compliance-report.md
-                    echo "4. Proper token permissions" >> compliance-report.md
-                    echo "5. No hardcoded secrets" >> compliance-report.md
-                    echo "" >> compliance-report.md
+                echo "" >> compliance-report.md
+                echo "## Security Requirements Checked:" >> compliance-report.md
+                echo "1. All third-party actions pinned to commit SHA" >> compliance-report.md
+                echo "2. No script injection vulnerabilities" >> compliance-report.md
+                echo "3. No dangerous triggers" >> compliance-report.md
+                echo "4. Proper token permissions" >> compliance-report.md
+                echo "5. No hardcoded secrets" >> compliance-report.md
+                echo "" >> compliance-report.md
 
-                    echo "## Detailed Results:" >> compliance-report.md
-                    echo "" >> compliance-report.md
+                echo "## Detailed Results:" >> compliance-report.md
+                echo "" >> compliance-report.md
 
-                    for result_file in compliance-results.txt results-*.txt; do
-                        if [ -f "$result_file" ]; then
-                            workflow_name=$(echo "$result_file" | sed 's/results-//' | sed 's/compliance-results/Main Check/' | sed 's/.txt//')
-                            echo "### $workflow_name" >> compliance-report.md
-                            echo '```' >> compliance-report.md
-                            cat "$result_file" >> compliance-report.md
-                            echo '```' >> compliance-report.md
-                            echo "" >> compliance-report.md
-                        fi
-                    done
+                for result_file in compliance-results.txt results-*.txt; do
+                    if [ -f "$result_file" ]; then
+                        workflow_name=$(echo "$result_file" | sed 's/results-//' | sed 's/compliance-results/Main Check/' | sed 's/.txt//')
+                        echo "### $workflow_name" >> compliance-report.md
+                        echo '```' >> compliance-report.md
+                        cat "$result_file" >> compliance-report.md
+                        echo '```' >> compliance-report.md
+                        echo "" >> compliance-report.md
+                    fi
+                done
 
-                    echo "---" >> compliance-report.md
-                    echo "*Generated by GitHub Actions Security Compliance Checker*" >> compliance-report.md
+                echo "---" >> compliance-report.md
+                echo "*Generated by GitHub Actions Security Compliance Checker*" >> compliance-report.md
 
                 - name: Upload Compliance Results
                   uses: actions/upload-artifact@v3
