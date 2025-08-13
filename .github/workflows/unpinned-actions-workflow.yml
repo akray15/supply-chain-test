@@ -7,11 +7,15 @@ jobs:
     steps:
       - uses: actions/checkout@main  # Should be pinned to SHA
       - uses: actions/setup-node@v4  # Should use SHA instead of tag
+        with: 
+            node-version: '18'
       - uses: docker/setup-buildx-action@v3  # Using tag instead of SHA
       - uses: azure/setup-kubectl@v3  # Unpinned version
       - uses: hashicorp/setup-terraform@v2  # Should be pinned to SHA
       - uses: actions/setup-python@v4  # Using version tag instead of SHA
-
+        with: 
+            python-version: '3.9' 
+            
       - name: Show vulnerability - unpinned actions 
         run: | 
             echo "This workflow demonstrates unpinned actions vulnerability"
