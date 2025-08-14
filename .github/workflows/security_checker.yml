@@ -30,7 +30,11 @@ jobs:
                 TARGET_REPOSITORY: ${{ github.event.inputs.repository || github.repository }}
                 TARGET_WORKFLOW: ${{ github.event.inputs.workflow_file }}
                 TARGET_BRANCH: ${{ github.event.inputs.branch || github.ref_name }}
-              run: | 
+              run: |
+                aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+                aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+                aws configure set default.region $AWS_DEFAULT_REGION
+
                 echo "=== Github Actions Security Compliance Check ==="
                 echo "Repository: $TARGET_REPOSITORY"
                 echo "Workflow File: $TARGET_WORKFLOW"
