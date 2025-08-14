@@ -37,7 +37,7 @@ jobs:
                 echo "Branch: $TARGET_BRANCH"
                 echo "Agent ID: $AGENT_ID"
 
-                export AWS_PROFILE="security-staging"
+                # export AWS_PROFILE="security-staging"
 
                 # Verify values 
                 if [ -z "$AGENT_ID" ]; then
