@@ -24,6 +24,9 @@ jobs:
               env: 
                 AGENT_ID: ${{ secrets.BEDROCK_AGENT_ID}}
                 AGENT_ALIAS_ID: ${{ secrets.BEDROCK_AGENT_ALIAS_ID }}
+                AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_ID }}
+                AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
                 TARGET_REPOSITORY: ${{ github.event.inputs.repository || github.repository }}
                 TARGET_WORKFLOW: ${{ github.event.inputs.workflow_file }}
                 TARGET_BRANCH: ${{ github.event.inputs.branch || github.ref_name }}
