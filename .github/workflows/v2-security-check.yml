@@ -1,24 +1,24 @@
 - name: Run Security Compliance Check
-        env:
-          AGENT_ID: ${{ secrets.BEDROCK_AGENT_ID }}
-          AGENT_ALIAS_ID: ${{ secrets.BEDROCK_AGENT_ALIAS_ID }}
-          TARGET_REPOSITORY: ${{ github.event.inputs.repository || github.repository }}
-          TARGET_WORKFLOW: ${{ github.event.inputs.workflow_file || 'unpinned-actions.yml' }}
-          TARGET_BRANCH: ${{ github.event.inputs.branch || github.ref_name }}
-        run: |
-          echo "=== Github Actions Security Compliance Check ==="
-          echo "Repository: $TARGET_REPOSITORY"
-          echo "Workflow File: $TARGET_WORKFLOW"
-          echo "Branch: $TARGET_BRANCH"
-          echo "Agent ID: $AGENT_ID"
+    env:
+        AGENT_ID: ${{ secrets.BEDROCK_AGENT_ID }}
+        AGENT_ALIAS_ID: ${{ secrets.BEDROCK_AGENT_ALIAS_ID }}
+        TARGET_REPOSITORY: ${{ github.event.inputs.repository || github.repository }}
+        TARGET_WORKFLOW: ${{ github.event.inputs.workflow_file || 'unpinned-actions.yml' }}
+        TARGET_BRANCH: ${{ github.event.inputs.branch || github.ref_name }}
+    run: |
+        echo "=== Github Actions Security Compliance Check ==="
+        echo "Repository: $TARGET_REPOSITORY"
+        echo "Workflow File: $TARGET_WORKFLOW"
+        echo "Branch: $TARGET_BRANCH"
+        echo "Agent ID: $AGENT_ID"
           
-          # Verify we have the required values
-          if [ -z "$AGENT_ID" ]; then
+        # Verify we have the required values
+        if [ -z "$AGENT_ID" ]; then
             echo "❌ BEDROCK_AGENT_ID is not set"
             exit 1
-          fi
+        fi
           
-          if [ -z "$AGENT_ALIAS_ID" ]; then
+        if [ -z "$AGENT_ALIAS_ID" ]; then
             echo "❌ BEDROCK_AGENT_ALIAS_ID is not set"
             exit 1
           fi
