@@ -1,3 +1,6 @@
+export AGENT_ID="JCX0ORCEOC"
+export AGENT_ALIAS_ID="3EL6WSRCTS"
+
 echo "=== Github Actions Security Compliance Check ==="
 echo "Repository: $TARGET_REPOSITORY"
 echo "Workflow File: $TARGET_WORKFLOW"
@@ -20,6 +23,16 @@ fi
 REQUEST_TEXT="Run security compliance check on: repository: $TARGET_REPOSITORY workflow_file: $TARGET_WORKFLOW branch: $TARGET_BRANCH"
 
 echo "=== Creating Bedrock Agent Session ==="
+
+echo "=== CREDENTIAL DEBUG ==="
+echo "AWS_PROFILE: $AWS_PROFILE"
+echo "AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:0:10}..." 
+echo "AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:0:10}..."
+echo "AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION"
+echo "AWS_REGION: $AWS_REGION"
+aws configure list
+aws sts get-caller-identity
+echo "========================="
 
 # Step 1: Create session
 SESSION_ID=$(aws bedrock-agent-runtime create-session --query 'sessionId' --output text)
@@ -64,40 +77,17 @@ if [ -f invocation-steps.json ]; then
 
   if grep -q "SECURITY STATUS.*PASS" compliance-results.txt; then 
     echo "COMPLIANCE CHECK: PASSED" 
-    echo "COMPLIANCE_STATUS=PASS" >> $GITHUB_ENV
+    #echo "COMPLIANCE_STATUS=PASS" >> $GITHUB_ENV
   elif grep -q "SECURITY STATUS.*FAIL" compliance-results.txt; then 
     echo "COMPLIANCE CHECK: FAILED"
-    echo "COMPLIANCE_STATUS=FAIL" >> $GITHUB_ENV
+    #echo "COMPLIANCE_STATUS=FAIL" >> $GITHUB_ENV
   else
     echo "COMPLIANCE CHECK: INDETERMINATE"
-    echo "COMPLIANCE_STATUS=UNKNOWN" >> $GITHUB_ENV
+    #echo "COMPLIANCE_STATUS=UNKNOWN" >> $GITHUB_ENV
   fi
 else 
   echo "No results received"
-  echo "COMPLIANCE_STATUS=ERROR" >> $GITHUB_ENV
+  #echo "COMPLIANCE_STATUS=ERROR" >> $GITHUB_ENV
   exit 1
 fi 
 
-# # Parse and display results
-# if [ -f invocation-steps.json ]; then
-#   echo "=== Security Compliance Results ==="
-#   cat invocation-steps.json | jq -r '.invocationSteps[].response.text // .invocationSteps[].response.content // "No text response found"' > compliance-results.txt
-  
-#   cat compliance-results.txt
-  
-#   # Check if it's a PASS or FAIL
-#   if grep -q "SECURITY STATUS.*PASS" compliance-results.txt; then
-#     echo "✅ COMPLIANCE CHECK: PASSED"
-#     echo "COMPLIANCE_STATUS=PASS" >> $GITHUB_ENV
-#   elif grep -q "SECURITY STATUS.*FAIL" compliance-results.txt; then
-#     echo "❌ COMPLIANCE CHECK: FAILED"
-#     echo "COMPLIANCE_STATUS=FAIL" >> $GITHUB_ENV
-#   else
-#     echo "⚠️ COMPLIANCE CHECK: INDETERMINATE"
-#     echo "COMPLIANCE_STATUS=UNKNOWN" >> $GITHUB_ENV
-#   fi
-# else
-#   echo "❌ No results received"
-#   echo "COMPLIANCE_STATUS=ERROR" >> $GITHUB_ENV
-#   exit 1
-# fi
