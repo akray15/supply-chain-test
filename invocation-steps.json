@@ -1,3 +1,10 @@
 {
-    "invocationStepSummaries": []
+    "invocationStepSummaries": [
+        {
+            "invocationId": "183a5769-1e24-45f5-972a-08ea1d2466d1",
+            "invocationStepId": "b4e101ca-dfe1-4897-ba75-2a638f7ab78a",
+            "invocationStepTime": "2025-08-25T07:25:12+00:00",
+            "sessionId": "be447a27-7c31-4b9d-832b-01ea816dc36d"
+        }
+    ]
 }
